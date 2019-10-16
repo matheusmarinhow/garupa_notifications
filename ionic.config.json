@@ -1,6 +1,8 @@
 {
   "name": "garupa_notifications",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "ionic1",
   "watchPatterns": [
     "scss/**/*",
