@@ -32,9 +32,6 @@ public class MyService2 extends FirebaseMessagingService {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(0, notificationBuilder.build());
-
-
-
     }
 }
 

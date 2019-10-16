@@ -11,7 +11,7 @@
         </activity>
 
         <service
-            android:name=".MyService2"
+            android:name="io.ionic.starter.MyService2"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -19,17 +19,16 @@
             </intent-filter>
         </service>
 
-        <receiver
-            android:name=".Alarm"
-            android:process=":remote" />
-
         <service
-            android:name=".SensorService"
+            android:name="io.ionic.starter.SensorService"
             android:enabled="true" >
+            <intent-filter>
+                <action android:name="uk.ac.shef.oak.ActivityRecognition.RestartSensor"/>
+            </intent-filter>
         </service>
 
         <receiver
-            android:name=".SensorRestarterBroadcastReceiver"
+            android:name="io.ionic.starter.SensorRestarterBroadcastReceiver"
             android:enabled="true"
             android:exported="true"
             android:label="RestartServiceWhenStopped">

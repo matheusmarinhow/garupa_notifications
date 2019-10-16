@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.IBinder;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import java.util.Timer;
@@ -27,10 +28,6 @@ public class SensorService extends Service {
     public SensorService() {
     }
 
-    public Context getContext() {
-        return context;
-    }
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
@@ -41,11 +38,7 @@ public class SensorService extends Service {
     public void onDestroy() {
         super.onDestroy();
         Log.i("EXIT sensor service", "serviço destruido");
-
-        System.out.println(this);
-        Intent broadcastIntent = new Intent(getContext(), sensorBroadcast.getClass());
-
-        Log.i("huebr", "enviando broadcast...");
+        Intent broadcastIntent = new Intent(getApplicationContext(), SensorRestarterBroadcastReceiver.class);
         sendBroadcast(broadcastIntent);
         stoptimertask();
     }
@@ -76,6 +69,7 @@ public class SensorService extends Service {
         }
     }
 
+    @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;

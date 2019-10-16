@@ -18,9 +18,9 @@ public class SensorRestarterBroadcastReceiver extends BroadcastReceiver {
         context.startService(new Intent(context, SensorService.class));
 
         //Aqui cria a notificação
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "chanelid")
-                .setContentTitle("Test titulo")
-                .setContentText("Test copor")
+        /*NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "chanelid")
+                .setContentTitle("Test titulo 2")
+                .setContentText("Test copor 2")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setStyle(new NotificationCompat.BigTextStyle())
                 .setSound(Uri.parse("android.resource://" + context.getApplicationContext().getPackageName() + "/" + R.raw.sisira))
@@ -30,6 +30,6 @@ public class SensorRestarterBroadcastReceiver extends BroadcastReceiver {
 
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0, notificationBuilder.build());
+        notificationManager.notify(0, notificationBuilder.build());*/
     }
 }

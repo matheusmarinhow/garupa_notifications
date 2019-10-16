@@ -84,7 +84,6 @@ public class MainActivity extends CordovaActivity {
     public void onDestroy() {
         stopService(mServiceIntent);
         Log.i("main", "onDestroy!");
-        mSensorService.onDestroy();
         super.onDestroy();
     }
 
