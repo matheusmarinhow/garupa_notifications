@@ -38,6 +38,7 @@ public class MainActivity extends CordovaActivity {
     Intent mServiceIntent;
     private SensorService mSensorService;
     Context ctx;
+
     public Context getCtx() {
         return ctx;
     }

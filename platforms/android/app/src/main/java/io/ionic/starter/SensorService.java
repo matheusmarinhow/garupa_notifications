@@ -11,6 +11,14 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
+import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.URISyntaxException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -19,9 +27,15 @@ public class SensorService extends Service {
     Context context;
     String CHANEL_ID = "1";
     SensorRestarterBroadcastReceiver sensorBroadcast;
+    private Socket mSocket;
 
     public SensorService(Context applicationContext) {
         super();
+        try {
+            mSocket = IO.socket("http://127.0.0.1:80");
+            mSocket.connect();
+            Log.i("SocketIo", "Socket conectado");
+        } catch (URISyntaxException e) {}
         Log.i("Service", "abriu");
     }
 
@@ -76,7 +90,10 @@ public class SensorService extends Service {
     }
 
     private void registraNotificacao(){
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CHANEL_ID)
+
+
+
+        /*NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CHANEL_ID)
                 .setContentTitle("Test titulo")
                 .setContentText("Test copor")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -88,6 +105,31 @@ public class SensorService extends Service {
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0, notificationBuilder.build());
+        notificationManager.notify(0, notificationBuilder.build());*/
     }
+
+
+    /*private Emitter.Listener onNewMessage = new Emitter.Listener() {
+
+        @Override
+        public void call(final Object... args) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    JSONObject data = (JSONObject) args[0];
+                    String username;
+                    String message;
+                    try {
+                        username = data.getString("username");
+                        message = data.getString("message");
+
+                        System.out.println(username);
+                        System.out.println(message);
+                    } catch (JSONException e) {
+                        return;
+                    }
+                }
+            });
+        }
+    };*/
 }
