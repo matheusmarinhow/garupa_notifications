@@ -1,40 +1,48 @@
-const http = require('http');
-
-const hostname = '127.0.0.1';
-const port = 80;
-
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello World\n');
+const express = require('express'),
+http = require('http'),
+app = express(),
+server = http.createServer(app),
+io = require('socket.io').listen(server);
+app.get('/', (req, res) => {
+	res.send('Chat Server is running on port 3000')
 });
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
-});
+io.on('connection', (socket) => {
 
-var app = require('http').createServer(handler)
-var io = require('socket.io')(app);
-var fs = require('fs');
+	console.log('user connected');
 
-app.listen(80);
+	socket.on('join', function(userNickname) {
 
-function handler (req, res) {
-  fs.readFile(__dirname + '/index.html',
-  function (err, data) {
-    if (err) {
-      res.writeHead(500);
-      return res.end('Error loading index.html');
-    }
+        console.log(userNickname +" : has joined the chat "  );
 
-    res.writeHead(200);
-    res.end(data);
-  });
-}
+        socket.broadcast.emit('userjoinedthechat',userNickname +" : has joined the chat ");
+    })
 
-io.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
-  });
-});
+
+	socket.on('messagedetection', (senderNickname,messageContent) => {
+
+       //log the message in console 
+
+       console.log(senderNickname+" : " +messageContent)
+
+      //create a message object 
+
+      let  message = {"message":messageContent, "senderNickname":senderNickname}
+
+       // send the message to all users including the sender  using io.emit() 
+
+      io.emit('message', message )
+
+    })
+
+	socket.on('disconnect', function() {
+        console.log(userNickname +' has left ')
+
+        socket.broadcast.emit( "userdisconnect" ,' user has left')
+    })
+})
+
+
+server.listen(3000, () => {
+	console.log('Node app is running on port 3000')
+})

@@ -1,22 +1,15 @@
 package io.ionic.starter;
 
-import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.IBinder;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
 
-import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.net.URISyntaxException;
 import java.util.Timer;
@@ -31,11 +24,6 @@ public class SensorService extends Service {
 
     public SensorService(Context applicationContext) {
         super();
-        try {
-            mSocket = IO.socket("http://127.0.0.1:80");
-            mSocket.connect();
-            Log.i("SocketIo", "Socket conectado");
-        } catch (URISyntaxException e) {}
         Log.i("Service", "abriu");
     }
 
@@ -45,6 +33,14 @@ public class SensorService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
+        try {
+            mSocket = IO.socket("http://10.20.18.83:3000/");
+            mSocket.connect();
+            Log.i("SocketIO", "Socket conectado");
+
+        } catch (URISyntaxException e) {
+            Log.i("SocketIo", "Socket não conectado");
+        }
         startTimer();
         return START_STICKY;
     }
@@ -91,6 +87,8 @@ public class SensorService extends Service {
 
     private void registraNotificacao(){
 
+        mSocket.emit("join", "Marinho");
+        Log.i("SocketIo", "enviado");
 
 
         /*NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CHANEL_ID)
